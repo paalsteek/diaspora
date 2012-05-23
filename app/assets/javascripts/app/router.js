@@ -2,6 +2,7 @@ app.Router = Backbone.Router.extend({
   routes: {
     //new hotness
     "stream?ex=true": 'newStream',
+    "stream?max_time=:time&ex=true": 'newStream',
     "people/:id?ex=true": "newProfile",
     "posts/new" : "composer",
     "posts/:id": "singlePost",
