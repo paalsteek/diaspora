@@ -7,8 +7,14 @@ app.views.NewStream = app.views.InfScroll.extend({
   }
 });
 
+/*--------------------*/
+
 app.pages.Stream = app.views.Base.extend({
   templateName : "stream",
+
+  events : {
+    'activate .stream-frame-wrapper' : 'triggerInteractionLoad'
+  },
 
   subviews : {
     "#stream-content" : "streamView",
@@ -29,5 +35,19 @@ app.pages.Stream = app.views.Base.extend({
 
   postRenderTemplate : function() {
     this.$("#header").css("background-image", "url(" + app.currentUser.get("wallpaper") + ")")
+
+    $('body').scrollspy({target : '.stream-frame-wrapper'})
+    setTimeout(_.bind(this.refreshScrollSpy, this), 2000)
+  },
+
+  triggerInteractionLoad : function(evt){
+    var post = this.stream.items.get($(evt.target).data("id"))
+    this.interactionsView.setInteractions(post)
+  },
+
+  //on active guid => this guid
+  // fire interacted from stream collection w/guid
+  refreshScrollSpy : function(){
+    $('body').scrollspy('refresh')
   }
 });
